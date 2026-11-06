@@ -19,11 +19,7 @@ namespace ARVI{
         [Header("Media list")]
         [SerializeField] List<MediaItem> media = new List<MediaItem>();
 
-        Vector3 defaultScreenScale;
-
         void Awake(){
-            if (screen != null) defaultScreenScale = screen.transform.localScale;
-
             if (videoPlayer != null){
                 videoPlayer.playOnAwake = false;
                 videoPlayer.source = VideoSource.VideoClip;
@@ -32,7 +28,7 @@ namespace ARVI{
         }
 
         void OnDestroy(){
-                videoPlayer.prepareCompleted -= OnVideoPrepared;
+            if (videoPlayer != null) videoPlayer.prepareCompleted -= OnVideoPrepared;
         }
 
         public void SelectMedia(int index){
@@ -52,14 +48,10 @@ namespace ARVI{
                 return;
             }
 
-            screen.transform.localScale = defaultScreenScale;
             screen.material.mainTexture = item.image;
         }
 
         void OnVideoPrepared(VideoPlayer player){
-            var scale = defaultScreenScale;
-            scale.y = scale.x / ((float)player.width / player.height);
-            screen.transform.localScale = scale;
             player.Play();
         }
     }
