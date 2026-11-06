@@ -59,11 +59,16 @@ namespace ARVI{
             canvas.sortingOrder = 10;
 
             RectTransform canvasRect = canvas.GetComponent<RectTransform>();
-            canvasRect.sizeDelta = new Vector2(700f, 100f);
+            canvasRect.sizeDelta = new Vector2(700f, 140f);
 
+            CreateInstructionText(canvas.transform, "Press [Left Grab] to take a controller", 35f);
+            CreateInstructionText(canvas.transform, "Use [Right Grab] + [Trigger] to select a channel", -35f);
+        }
+
+        void CreateInstructionText(Transform parent, string message, float verticalPosition){
             TextMeshProUGUI text = new GameObject("Instruction Text").AddComponent<TextMeshProUGUI>();
-            text.transform.SetParent(canvas.transform, false);
-            text.text = "Press [Grab] to take a controller";
+            text.transform.SetParent(parent, false);
+            text.text = message;
             text.fontSize = 36f;
             text.alignment = TextAlignmentOptions.Center;
             text.color = Color.white;
@@ -72,10 +77,8 @@ namespace ARVI{
             text.outlineColor = Color.black;
 
             RectTransform textRect = text.rectTransform;
-            textRect.anchorMin = Vector2.zero;
-            textRect.anchorMax = Vector2.one;
-            textRect.offsetMin = Vector2.zero;
-            textRect.offsetMax = Vector2.zero;
+            textRect.sizeDelta = new Vector2(700f, 70f);
+            textRect.anchoredPosition = new Vector2(0f, verticalPosition);
         }
 
         Transform FindController(string controllerName){
