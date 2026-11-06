@@ -7,7 +7,6 @@ namespace ARVI{
         [SerializeField] string rightControllerName = "Right Controller";
         [SerializeField] InputActionReference leftGrabMoveAction;
         [SerializeField] InputActionReference rightGrabMoveAction;
-        [SerializeField] Vector3 handLocalPosition = new Vector3(3.1f, -0.36f, 1.27f);
 
         Transform leftController;
         Transform rightController;
@@ -25,9 +24,7 @@ namespace ARVI{
             rightController = FindController(rightControllerName);
 
             if (leftController != null) leftDisplay = CreateDisplay(leftController, "Controller (Left)");
-            else Debug.LogError($"Could not find '{leftControllerName}'. The left controller display cannot be created.", this);
             if (rightController != null) rightDisplay = CreateDisplay(rightController, "Controller (Right)");
-            else Debug.LogError($"Could not find '{rightControllerName}'. The right controller display cannot be created.", this);
 
             for (int i = 0; i < sourceParts.Length; i++){
                 sourceParts[i].SetActive(false);
@@ -43,14 +40,12 @@ namespace ARVI{
         }
 
         void OnDestroy(){
-            if (leftDisplay != null) Destroy(leftDisplay);
-            if (rightDisplay != null) Destroy(rightDisplay);
+            Destroy(leftDisplay);
+            Destroy(rightDisplay);
         }
 
         Transform FindController(string controllerName){
-            Transform[] transforms = FindObjectsByType<Transform>(
-                FindObjectsInactive.Include,
-                FindObjectsSortMode.None);
+            Transform[] transforms = FindObjectsByType<Transform>(FindObjectsInactive.Include);
 
             for (int i = 0; i < transforms.Length; i++){
                 if (transforms[i].name == controllerName){
@@ -64,7 +59,6 @@ namespace ARVI{
         GameObject CreateDisplay(Transform hand, string displayName){
             GameObject display = new GameObject(displayName);
             display.transform.SetParent(hand, false);
-            display.transform.localPosition = handLocalPosition;
 
             for (int i = 0; i < sourceParts.Length; i++){
                 GameObject part = Instantiate(sourceParts[i], display.transform);
@@ -72,16 +66,28 @@ namespace ARVI{
                 part.SetActive(true);
             }
 
+            CenterDisplayOnHand(display.transform);
             display.SetActive(false);
             return display;
         }
 
-        void EnableAction(InputActionReference actionReference){
-            if (actionReference == null || actionReference.action == null){
-                Debug.LogError("A Grab Move input action is not assigned.", this);
+        void CenterDisplayOnHand(Transform display){
+            Renderer[] renderers = display.GetComponentsInChildren<Renderer>(true);
+            if (renderers.Length == 0){
+                display.localPosition = Vector3.zero;
                 return;
             }
 
+            Bounds bounds = renderers[0].bounds;
+            for (int i = 1; i < renderers.Length; i++){
+                bounds.Encapsulate(renderers[i].bounds);
+            }
+
+            Vector3 localCenter = display.InverseTransformPoint(bounds.center);
+            display.localPosition = -localCenter;
+        }
+
+        void EnableAction(InputActionReference actionReference){
             if (!actionReference.action.enabled){
                 actionReference.action.Enable();
             }
