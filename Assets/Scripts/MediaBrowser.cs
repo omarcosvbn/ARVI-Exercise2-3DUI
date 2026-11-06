@@ -25,6 +25,14 @@ namespace ARVI{
                 videoPlayer.source = VideoSource.VideoClip;
                 videoPlayer.prepareCompleted += OnVideoPrepared;
             }
+
+            Transform[] transforms = FindObjectsByType<Transform>(FindObjectsInactive.Include);
+            for (int i = 0; i < transforms.Length; i++){
+                if (transforms[i].name.StartsWith("Button") &&
+                    transforms[i].GetComponent<MediaButtonVisuals>() == null){
+                    transforms[i].gameObject.AddComponent<MediaButtonVisuals>();
+                }
+            }
         }
 
         void OnDestroy(){
