@@ -1494,6 +1494,17 @@
                 },
                 {
                     "name": "",
+                    "id": "9a7d2f3e-0b42-4cc7-9e80-4c6a9c1f1d01",
+                    "path": "<HandInteraction>{LeftHand}/graspFirm",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grab Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
                     "id": "a46b49d0-0754-4dac-a9a5-a822e10751f2",
                     "path": "<XRController>{LeftHand}/{Primary2DAxis}",
                     "interactions": "Sector(directions=12,sweepBehavior=1),Sector(directions=2,sweepBehavior=2)",
@@ -2697,6 +2708,17 @@
                     "name": "",
                     "id": "7ecb549e-ab98-4a4b-b979-38068fe3b811",
                     "path": "<XRController>{RightHand}/{GripButton}",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Grab Move",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b6c4e8a1-7f53-4f16-9b25-2d8e6a0c4f02",
+                    "path": "<HandInteraction>{RightHand}/graspFirm",
                     "interactions": "",
                     "processors": "",
                     "groups": "",

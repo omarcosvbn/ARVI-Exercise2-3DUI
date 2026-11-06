@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Video;
@@ -19,6 +20,8 @@ namespace ARVI{
         [Header("Media list")]
         [SerializeField] List<MediaItem> media = new List<MediaItem>();
 
+        readonly List<MediaButtonVisuals> mediaButtons = new List<MediaButtonVisuals>();
+
         void Awake(){
             if (videoPlayer != null){
                 videoPlayer.playOnAwake = false;
@@ -28,10 +31,16 @@ namespace ARVI{
 
             Transform[] transforms = FindObjectsByType<Transform>(FindObjectsInactive.Include);
             for (int i = 0; i < transforms.Length; i++){
-                if (transforms[i].name.StartsWith("Button") &&
-                    transforms[i].GetComponent<MediaButtonVisuals>() == null){
-                    transforms[i].gameObject.AddComponent<MediaButtonVisuals>();
+                if (!transforms[i].name.StartsWith("Button")){
+                    continue;
                 }
+
+                var buttonVisuals = transforms[i].GetComponent<MediaButtonVisuals>();
+                if (buttonVisuals == null){
+                    buttonVisuals = transforms[i].gameObject.AddComponent<MediaButtonVisuals>();
+                }
+
+                mediaButtons.Add(buttonVisuals);
             }
         }
 
@@ -43,6 +52,9 @@ namespace ARVI{
             if (index < 0 || index >= media.Count){
                 return;
             }
+
+            ResetMediaButtons();
+            StartCoroutine(ResetMediaButtonsNextFrame());
 
             var item = media[index];
 
@@ -57,6 +69,17 @@ namespace ARVI{
             }
 
             screen.material.mainTexture = item.image;
+        }
+
+        void ResetMediaButtons(){
+            for (int i = 0; i < mediaButtons.Count; i++){
+                mediaButtons[i].ResetVisual();
+            }
+        }
+
+        IEnumerator ResetMediaButtonsNextFrame(){
+            yield return null;
+            ResetMediaButtons();
         }
 
         void OnVideoPrepared(VideoPlayer player){

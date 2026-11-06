@@ -207,7 +207,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1528580210785895538, guid: b99e4fd7311b86647ba7d8ef26f04f3c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.53
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1528580210785895538, guid: b99e4fd7311b86647ba7d8ef26f04f3c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -932,7 +932,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 3
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -1131,7 +1131,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 2
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2136,7 +2136,7 @@ MonoBehaviour:
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -2317,9 +2317,18 @@ MonoBehaviour:
   screen: {fileID: 1245482490}
   videoPlayer: {fileID: 1879122881}
   media:
-  - title: Test
+  - title: Pingu
     image: {fileID: 0}
-    video: {fileID: 32900000, guid: 597e3ae2e01aed1488c14e4b05610134, type: 3}
+    video: {fileID: 32900000, guid: 55848695381883c4e84fd19aa4281722, type: 3}
+  - title: DB
+    image: {fileID: 0}
+    video: {fileID: 32900000, guid: bc7c32f30271f1d49b4b1ff13691ed60, type: 3}
+  - title: Coragem
+    image: {fileID: 0}
+    video: {fileID: 32900000, guid: b78b85a1fab7b744c95132c0c0686275, type: 3}
+  - title: Teletubbies
+    image: {fileID: 0}
+    video: {fileID: 32900000, guid: 788f2a71c06f45344823f038b483c82d, type: 3}
 --- !u!4 &1879122880
 Transform:
   m_ObjectHideFlags: 0

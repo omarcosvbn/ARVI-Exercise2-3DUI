@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using TMPro;
 
 namespace ARVI{
     public class GripControllerDisplay : MonoBehaviour{
@@ -13,6 +14,7 @@ namespace ARVI{
         GameObject leftDisplay;
         GameObject rightDisplay;
         GameObject[] sourceParts;
+        GameObject instructionCanvas;
 
         void Awake(){
             sourceParts = new GameObject[transform.childCount];
@@ -24,24 +26,56 @@ namespace ARVI{
             rightController = FindController(rightControllerName);
 
             if (leftController != null) leftDisplay = CreateDisplay(leftController, "Controller (Left)");
-            if (rightController != null) rightDisplay = CreateDisplay(rightController, "Controller (Right)");
 
             for (int i = 0; i < sourceParts.Length; i++){
                 sourceParts[i].SetActive(false);
             }
 
             EnableAction(leftGrabMoveAction);
-            EnableAction(rightGrabMoveAction);
+            CreateInstructionCanvas();
         }
 
         void Update(){
             SetDisplayActive(leftDisplay, IsActionPressed(leftGrabMoveAction));
-            SetDisplayActive(rightDisplay, IsActionPressed(rightGrabMoveAction));
         }
 
         void OnDestroy(){
             Destroy(leftDisplay);
             Destroy(rightDisplay);
+            Destroy(instructionCanvas);
+        }
+
+        void CreateInstructionCanvas(){
+            Camera camera = Camera.main;
+
+            instructionCanvas = new GameObject("Controller Instruction Canvas");
+            instructionCanvas.transform.SetParent(camera.transform, false);
+            instructionCanvas.transform.localPosition = new Vector3(0f, -0.5f, 2f);
+            instructionCanvas.transform.localScale = Vector3.one * 0.001f;
+
+            Canvas canvas = instructionCanvas.AddComponent<Canvas>();
+            canvas.renderMode = RenderMode.WorldSpace;
+            canvas.worldCamera = camera;
+            canvas.sortingOrder = 10;
+
+            RectTransform canvasRect = canvas.GetComponent<RectTransform>();
+            canvasRect.sizeDelta = new Vector2(700f, 100f);
+
+            TextMeshProUGUI text = new GameObject("Instruction Text").AddComponent<TextMeshProUGUI>();
+            text.transform.SetParent(canvas.transform, false);
+            text.text = "Press [Grab] to take a controller";
+            text.fontSize = 36f;
+            text.alignment = TextAlignmentOptions.Center;
+            text.color = Color.white;
+            text.textWrappingMode = TextWrappingModes.NoWrap;
+            text.outlineWidth = 0.2f;
+            text.outlineColor = Color.black;
+
+            RectTransform textRect = text.rectTransform;
+            textRect.anchorMin = Vector2.zero;
+            textRect.anchorMax = Vector2.one;
+            textRect.offsetMin = Vector2.zero;
+            textRect.offsetMax = Vector2.zero;
         }
 
         Transform FindController(string controllerName){
